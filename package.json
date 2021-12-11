@@ -11,7 +11,8 @@
     "dev:worker": "esbuild --define:process.env.NODE_ENV='\"development\"' --bundle --sourcemap --outdir=dist ./worker",
     "start": "miniflare --build-command \"npm run dev:worker\" --watch",
     "deploy": "npm run build && npx wrangler publish",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --cache --fix && tsc --noEmit"
   },
   "dependencies": {
     "@remix-run/cloudflare-workers": "^1.0.6",

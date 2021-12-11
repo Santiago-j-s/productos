@@ -1,5 +1,6 @@
 {
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "esModuleInterop": true,
@@ -8,6 +9,7 @@
     "resolveJsonModule": true,
     "target": "ES2019",
     "strict": true,
+    "skipLibCheck": true,
     "paths": {
       "~/*": ["./app/*"]
     },

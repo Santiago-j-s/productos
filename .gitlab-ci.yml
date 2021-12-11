@@ -6,6 +6,9 @@ deploy:
   image: node:16-alpine
   script:
     - npm ci
+    # not ideal, but wrangler has a postinstall script
+    # that runs as `nobody` if installed globally
+    # it could be tracked in this issue https://github.com/cloudflare/wrangler/issues/2063
     - npm i @cloudflare/wrangler
     - npm run deploy
   only:

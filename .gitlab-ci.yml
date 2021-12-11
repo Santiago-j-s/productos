@@ -1,5 +1,6 @@
 stages:
   - Install Dependencies
+  - Lint
   - Deploy on Cloudflare
 
 install_dependencies:
@@ -14,6 +15,17 @@ install_dependencies:
   only:
     changes:
       - package-lock.json
+
+lint:
+  stage: Lint
+  image: node:16-alpine
+  cache: 
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - npm run lint
 
 deploy:
   stage: Deploy on Cloudflare

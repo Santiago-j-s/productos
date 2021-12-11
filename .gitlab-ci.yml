@@ -1,0 +1,12 @@
+stages:
+  - Deploy on Cloudflare
+
+deploy:
+  stage: Deploy on Cloudflare
+  image: node:16-alpine
+  script:
+    - npm ci
+    - npm i @cloudflare/wrangler
+    - npm run deploy
+  only:
+    - main

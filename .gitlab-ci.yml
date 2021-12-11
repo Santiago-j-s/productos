@@ -1,11 +1,29 @@
 stages:
+  - Install Dependencies
   - Deploy on Cloudflare
+
+install_dependencies:
+  stage: Install Dependencies
+  image: node:16-alpine
+  cache: 
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+  script:
+    - npm ci
+  only:
+    changes:
+      - package-lock.json
 
 deploy:
   stage: Deploy on Cloudflare
   image: node:16-alpine
+  cache: 
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+    policy: pull
   script:
-    - npm ci
     # not ideal, but wrangler has a postinstall script
     # that runs as `nobody` if installed globally
     # it could be tracked in this issue https://github.com/cloudflare/wrangler/issues/2063

@@ -6,6 +6,8 @@ account_id = ""
 route = ""
 workers_dev = true
 
+compatibility_date = "2021-12-11"
+
 [site]
 bucket = "./public"
 entry-point = "."

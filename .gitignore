@@ -1,5 +1,6 @@
 node_modules
 
+# remix
 /.cache
 /build
 /dist
@@ -7,3 +8,6 @@ node_modules
 
 # miniflare files
 .mf
+
+# eslint
+.eslintcache

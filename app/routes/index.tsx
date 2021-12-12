@@ -36,3 +36,7 @@ export const loader: LoaderFunction = async () => {
   // https://remix.run/api/remix#json
   return json(data);
 };
+
+export default function Index() {
+  return <main></main>;
+}

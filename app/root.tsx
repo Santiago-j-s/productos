@@ -14,7 +14,23 @@ import Header from "~/components/Header";
 
 // https://remix.run/api/app#links
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: globalStylesUrl }];
+  return [
+    {
+      rel: "preload",
+      as: "font",
+      href: "/fonts/sf-pro-text-regular.woff",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      as: "font",
+      href: "/fonts/sf-pro-text-semibold.woff",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
+    { rel: "stylesheet", href: globalStylesUrl },
+  ];
 };
 
 // https://remix.run/api/conventions#default-export

@@ -1,11 +1,27 @@
+@font-face {
+  font-family: "SfPro";
+  src: url("/fonts/sf-pro-text-regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SfPro";
+  src: url("/fonts/sf-pro-text-semibold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
 :root {
   --color-foreground: hsl(0, 0%, 7%);
   --color-background: hsl(0, 0%, 100%);
   --color-links: hsl(213, 100%, 52%);
   --color-links-hover: hsl(213, 100%, 43%);
   --color-border: hsl(0, 0%, 82%);
-  --font-body: -apple-system, "Segoe UI", Helvetica Neue, Helvetica, Roboto,
-    Arial, sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji";
+  --padding: 16px;
+  --header-color: #006de3;
+  --font-body: "SfPro", -apple-system, "Segoe UI", Helvetica Neue, Helvetica,
+    Roboto, Arial, sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 html {
@@ -83,4 +99,40 @@ input:where([type="search"]) {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 60px;
+  padding: var(--padding);
+  color: var(--header-color);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.12);
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 17px;
+}
+
+.header__logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 0.6em;
+  letter-spacing: -0.41px;
+}
+
+.header__cart {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.header__cart-icon {
+  margin-left: 0.6em;
 }

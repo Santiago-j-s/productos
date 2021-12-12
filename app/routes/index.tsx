@@ -13,7 +13,7 @@ interface Producto {
 }
 
 interface ResponseProductos {
-  productos: Producto[];
+  products: Producto[];
   page: number;
   per_page: number;
   page_count: number;

@@ -1,4 +1,4 @@
-import { LoaderFunction } from "remix";
+import { LoaderFunction, useLoaderData } from "remix";
 import { json } from "remix";
 
 interface Producto {
@@ -32,11 +32,52 @@ export const loader: LoaderFunction = async () => {
   });
 
   const data: ResponseProductos = await response.json();
+  const products = data.products.map(({ id, name, price, photo }) => ({
+    id,
+    name,
+    price: price.toFixed(2),
+    originalPrice: price.toFixed(2),
+    photo,
+  }));
 
   // https://remix.run/api/remix#json
-  return json(data);
+  return json({
+    page: data.page,
+    per_page: data.per_page,
+    page_count: data.page_count,
+    products,
+  });
 };
 
+interface IndexProps {
+  page: number;
+  per_page: number;
+  page_count: number;
+  products: Array<{
+    id: string;
+    name: string;
+    price: string;
+    originalPrice: string;
+    photo: string;
+  }>;
+}
+
 export default function Index() {
-  return <main></main>;
+  const { products } = useLoaderData<IndexProps>();
+
+  return (
+    <main className="main">
+      <h1>Almacén</h1>
+      <div className="products-container">
+        {products.map((product) => (
+          <div key={product.id} className="product">
+            <img className="product__img" src={product.photo} alt="" />
+            <p className="product__name">{product.name}</p>
+            <p className="product__price">${product.price}</p>
+            <button className="product__button">Agregar al carrito</button>
+          </div>
+        ))}
+      </div>
+    </main>
+  );
 }

@@ -131,9 +131,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="remix-app">
       <Header />
-      <div className="main">
-        <div className="container">{children}</div>
-      </div>
+      <div className="container">{children}</div>
     </div>
   );
 }

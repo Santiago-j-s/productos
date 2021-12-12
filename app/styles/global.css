@@ -13,13 +13,14 @@
 }
 
 :root {
-  --color-foreground: hsl(0, 0%, 7%);
-  --color-background: hsl(0, 0%, 100%);
+  --color-foreground: #000000;
+  --color-background: #f5f5f5;
   --color-links: hsl(213, 100%, 52%);
   --color-links-hover: hsl(213, 100%, 43%);
   --color-border: hsl(0, 0%, 82%);
   --padding: 16px;
-  --header-color: #006de3;
+  --header-background: #fff;
+  --header-foreground: #006de3;
   --font-body: "SfPro", -apple-system, "Segoe UI", Helvetica Neue, Helvetica,
     Roboto, Arial, sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji";
 }
@@ -108,7 +109,8 @@ input:where([type="search"]) {
   width: 100%;
   min-height: 60px;
   padding: var(--padding);
-  color: var(--header-color);
+  background-color: var(--header-background);
+  color: var(--header-foreground);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04),
     inset 0 -1px 0 0 rgba(0, 0, 0, 0.12);
 }

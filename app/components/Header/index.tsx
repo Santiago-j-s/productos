@@ -5,7 +5,13 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__brand">
-        <img className="header__logo" src={logo} alt="logo" />
+        <img
+          className="header__logo"
+          width="30"
+          height="30"
+          src={logo}
+          alt="logo"
+        />
         <b>Ez</b>shop
       </div>
       <div className="header__cart">

@@ -11,7 +11,13 @@ export default function Index({
 }: Product): ReactElement {
   return (
     <div key={id} className="product">
-      <img className="product__img" src={photo} alt="" />
+      <img
+        className="product__img"
+        width="148"
+        height="148"
+        src={photo}
+        alt=""
+      />
       <p className="product__name">{name}</p>
       <p className="product__price">
         {showOriginalPrice ? (

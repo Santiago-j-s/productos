@@ -169,13 +169,24 @@ h1 {
 }
 
 .product__price {
-  font-size: 16px;
-  font-weight: bold;
-
-  color: var(--color-accent);
-
   margin: 0;
   margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.product__new-price {
+  font-size: 16px;
+  color: var(--color-accent);
+  vertical-align: middle;
+  height: 100%;
+}
+
+.product__original-price {
+  font-size: 12px;
+  text-decoration: line-through;
+  margin-right: 6px;
+  vertical-align: middle;
+  height: 100%;
 }
 
 .product__button {

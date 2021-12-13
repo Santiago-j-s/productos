@@ -32,13 +32,16 @@ export const loader: LoaderFunction = async () => {
   });
 
   const data: ResponseProductos = await response.json();
-  const products = data.products.map(({ id, name, price, photo }) => ({
-    id,
-    name,
-    price: price.toFixed(2),
-    originalPrice: price.toFixed(2),
-    photo,
-  }));
+  const products = data.products.map(
+    ({ id, name, price, originalPrice, photo }) => ({
+      id,
+      name,
+      price: price.toFixed(2),
+      originalPrice: originalPrice.toFixed(2),
+      showOriginalPrice: originalPrice > price,
+      photo,
+    })
+  );
 
   // https://remix.run/api/remix#json
   return json({
@@ -58,6 +61,7 @@ interface IndexProps {
     name: string;
     price: string;
     originalPrice: string;
+    showOriginalPrice: boolean;
     photo: string;
   }>;
 }
@@ -73,7 +77,14 @@ export default function Index() {
           <div key={product.id} className="product">
             <img className="product__img" src={product.photo} alt="" />
             <p className="product__name">{product.name}</p>
-            <p className="product__price">${product.price}</p>
+            <p className="product__price">
+              {product.showOriginalPrice ? (
+                <span className="product__original-price">
+                  ${product.originalPrice}
+                </span>
+              ) : null}
+              <span className="product__new-price">${product.price}</span>
+            </p>
             <button className="product__button">Agregar al carrito</button>
           </div>
         ))}

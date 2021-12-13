@@ -1,15 +1,17 @@
-import { json, LoaderFunction, useLoaderData } from "remix";
+import { json, Link, LoaderFunction, useLoaderData } from "remix";
 import type { Products } from "~/services/getProducts";
 import getProducts from "~/services/getProducts";
 import Product from "~/components/Product";
 
-export const loader: LoaderFunction = async () => {
-  const products = await getProducts();
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get("page") ?? 1);
+  const products = await getProducts(page);
   return json(products);
 };
 
 export default function Index() {
-  const { products } = useLoaderData<Products>();
+  const { products, page } = useLoaderData<Products>();
 
   return (
     <main className="main">
@@ -29,6 +31,9 @@ export default function Index() {
           )
         )}
       </div>
+      <Link className="products-container__button" to={`?page=${page + 1}`}>
+        Cargar más productos
+      </Link>
     </main>
   );
 }

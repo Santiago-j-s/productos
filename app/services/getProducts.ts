@@ -32,9 +32,9 @@ export interface Products {
   products: Product[];
 }
 
-export default async function getProducts(): Promise<Products> {
+export default async function getProducts(page = 1): Promise<Products> {
   const baseUrl = "https://challenge-api.aerolab.co";
-  const productosUrl = `${baseUrl}/products`;
+  const productosUrl = `${baseUrl}/products?page=${page}`;
 
   const response = await fetch(productosUrl, {
     method: "GET",

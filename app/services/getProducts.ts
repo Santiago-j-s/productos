@@ -1,3 +1,5 @@
+import { API_URL } from "~/constants";
+
 interface ApiProduct {
   id: string;
   name: string;
@@ -32,9 +34,16 @@ export interface Products {
   products: Product[];
 }
 
+function getPhotoWithCache(photo: string) {
+  const photoUrl = new URL(photo);
+  const photoUrlParts = photoUrl.pathname.split("/");
+  const product = photoUrlParts[photoUrlParts.length - 1];
+
+  return `/images/${product}`;
+}
+
 export default async function getProducts(page = 1): Promise<Products> {
-  const baseUrl = "https://challenge-api.aerolab.co";
-  const productosUrl = `${baseUrl}/products?page=${page}`;
+  const productosUrl = `${API_URL}/products?page=${page}`;
 
   const response = await fetch(productosUrl, {
     method: "GET",
@@ -53,7 +62,7 @@ export default async function getProducts(page = 1): Promise<Products> {
         price: price.toFixed(2),
         originalPrice: originalPrice.toFixed(2),
         showOriginalPrice: originalPrice > price,
-        photo,
+        photo: getPhotoWithCache(photo),
       })
     ),
   };

@@ -1,6 +1,10 @@
 import type { ReactElement } from "react";
 import type { Product } from "~/services/getProducts";
 
+function withExtension(photo: string, ext: string) {
+  return photo.replace(/\.jpg/, `.${ext}`);
+}
+
 export default function Index({
   id,
   photo,
@@ -11,13 +15,16 @@ export default function Index({
 }: Product): ReactElement {
   return (
     <div key={id} className="product">
-      <img
-        className="product__img"
-        width="148"
-        height="148"
-        src={photo}
-        alt=""
-      />
+      <picture>
+        <source srcSet={withExtension(photo, "webp")} type="image/webp" />
+        <img
+          className="product__img"
+          width="148"
+          height="148"
+          src={photo}
+          alt=""
+        />
+      </picture>
       <p className="product__name">{name}</p>
       <p className="product__price">
         {showOriginalPrice ? (

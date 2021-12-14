@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { json, LoaderFunction, useFetcher, useLoaderData } from "remix";
 
 import type { Products } from "~/services/getProducts";
@@ -40,19 +40,22 @@ export default function Index() {
     }
   }, [fetcher.data]);
 
-  const callback: IntersectionObserverCallback = (entries) => {
-    for (const entry of entries) {
-      if (
-        entry.isIntersecting &&
-        !currentData.finishedLoading &&
-        fetcher.state !== "submitting"
-      ) {
-        const params = new URLSearchParams(`page=${currentData.page + 1}`);
-        fetcher.submit(params);
-        setCurrentData({ ...currentData, page: currentData.page + 1 });
+  const callback = useCallback<IntersectionObserverCallback>(
+    (entries) => {
+      for (const entry of entries) {
+        if (
+          entry.isIntersecting &&
+          !currentData.finishedLoading &&
+          fetcher.state !== "submitting"
+        ) {
+          const params = new URLSearchParams(`page=${currentData.page + 1}`);
+          fetcher.submit(params);
+          setCurrentData({ ...currentData, page: currentData.page + 1 });
+        }
       }
-    }
-  };
+    },
+    [currentData]
+  );
 
   useEffect(() => {
     const options: IntersectionObserverInit = {

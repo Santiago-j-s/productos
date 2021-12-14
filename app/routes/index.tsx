@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { products, page } = useLoaderData<Products>();
+  const { products, page, isLastPage } = useLoaderData<Products>();
 
   return (
     <main className="main">
@@ -31,9 +31,11 @@ export default function Index() {
           )
         )}
       </div>
-      <Link className="products-container__button" to={`?page=${page + 1}`}>
-        Cargar más productos
-      </Link>
+      {isLastPage ? null : (
+        <Link className="products-container__button" to={`?page=${page + 1}`}>
+          Cargar más productos
+        </Link>
+      )}
     </main>
   );
 }

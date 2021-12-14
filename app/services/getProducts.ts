@@ -30,7 +30,7 @@ export interface Product {
 export interface Products {
   page: number;
   per_page: number;
-  page_count: number;
+  isLastPage: boolean;
   products: Product[];
 }
 
@@ -54,7 +54,7 @@ export default async function getProducts(page = 1): Promise<Products> {
   return {
     page: data.page,
     per_page: data.per_page,
-    page_count: data.page_count,
+    isLastPage: data.page_count === data.page,
     products: data.products.map(
       ({ id, name, price, originalPrice, photo }) => ({
         id,

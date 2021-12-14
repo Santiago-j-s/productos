@@ -31,31 +31,35 @@ export default function Index() {
   const fetcher = useFetcher<Products>();
 
   useEffect(() => {
-    if (fetcher.type === "done") {
+    if (fetcher.data) {
       setCurrentData({
         page: fetcher.data.page,
         finishedLoading: fetcher.data.isLastPage,
         products: [...currentData.products, ...fetcher.data.products],
       });
     }
-  }, [fetcher.type]);
+  }, [fetcher.data]);
+
+  const callback: IntersectionObserverCallback = (entries) => {
+    for (const entry of entries) {
+      if (
+        entry.isIntersecting &&
+        !currentData.finishedLoading &&
+        fetcher.state !== "submitting"
+      ) {
+        console.log(`intersecting ${currentData.page}`);
+        const params = new URLSearchParams(`page=${currentData.page + 1}`);
+        fetcher.submit(params);
+        setCurrentData({ ...currentData, page: currentData.page + 1 });
+      }
+    }
+  };
 
   useEffect(() => {
-    const callback: IntersectionObserverCallback = (entries) => {
-      for (const entry of entries) {
-        console.log(entry.boundingClientRect);
-        if (entry.isIntersecting && !currentData.finishedLoading) {
-          console.log("intersecting");
-          fetcher.load(`?page=${currentData.page + 1}`);
-          setCurrentData({ ...currentData, page: currentData.page + 1 });
-        }
-      }
-    };
-
     const options: IntersectionObserverInit = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.7,
+      threshold: 0.6,
     };
 
     const observer = new IntersectionObserver(callback, options);
@@ -65,7 +69,7 @@ export default function Index() {
     return () => {
       observer.disconnect();
     };
-  }, [productsContainerElement]);
+  }, [productsContainerElement, callback]);
 
   return (
     <main className="main">

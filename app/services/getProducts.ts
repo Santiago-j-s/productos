@@ -1,4 +1,5 @@
 import { API_URL } from "~/constants";
+import getCotization from "./getCotization";
 
 interface ApiProduct {
   id: string;
@@ -49,7 +50,10 @@ export default async function getProducts(page = 1): Promise<Products> {
     method: "GET",
   });
 
-  const data: ApiResponseProducts = await response.json();
+  const [data, cotization]: [ApiResponseProducts, number] = await Promise.all([
+    response.json(),
+    getCotization(),
+  ]);
 
   return {
     page: data.page,
@@ -60,6 +64,7 @@ export default async function getProducts(page = 1): Promise<Products> {
         id,
         name,
         price: price.toFixed(2),
+        priceInDollars: (price / cotization).toFixed(2),
         originalPrice: originalPrice.toFixed(2),
         showOriginalPrice: originalPrice > price,
         photo: getPhotoWithCache(photo),

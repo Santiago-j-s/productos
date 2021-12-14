@@ -12,7 +12,7 @@ export default function Index({
   showOriginalPrice,
   originalPrice,
   price,
-}: Product): ReactElement {
+}: Omit<Product, "priceInDollars">): ReactElement {
   return (
     <div key={id} className="product">
       <picture>

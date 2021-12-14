@@ -24,6 +24,7 @@ export interface Product {
   name: string;
   price: string;
   originalPrice: string;
+  priceInDollars: string;
   showOriginalPrice: boolean;
   photo: string;
 }
@@ -43,6 +44,21 @@ function getPhotoWithCache(photo: string) {
   return `/images/${product}`;
 }
 
+function prepareProduct(
+  { id, name, price, originalPrice, photo }: ApiProduct,
+  cotization: number
+): Product {
+  return {
+    id,
+    name,
+    price: price.toFixed(2),
+    originalPrice: originalPrice.toFixed(2),
+    priceInDollars: (price / cotization).toFixed(2),
+    showOriginalPrice: originalPrice > price,
+    photo: getPhotoWithCache(photo),
+  };
+}
+
 export default async function getProducts(page = 1): Promise<Products> {
   const productosUrl = `${API_URL}/products?page=${page}`;
 
@@ -59,16 +75,8 @@ export default async function getProducts(page = 1): Promise<Products> {
     page: data.page,
     per_page: data.per_page,
     isLastPage: data.page_count === data.page,
-    products: data.products.map(
-      ({ id, name, price, originalPrice, photo }) => ({
-        id,
-        name,
-        price: price.toFixed(2),
-        priceInDollars: (price / cotization).toFixed(2),
-        originalPrice: originalPrice.toFixed(2),
-        showOriginalPrice: originalPrice > price,
-        photo: getPhotoWithCache(photo),
-      })
+    products: data.products.map((product) =>
+      prepareProduct(product, cotization)
     ),
   };
 }

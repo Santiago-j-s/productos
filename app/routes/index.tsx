@@ -47,7 +47,6 @@ export default function Index() {
         !currentData.finishedLoading &&
         fetcher.state !== "submitting"
       ) {
-        console.log(`intersecting ${currentData.page}`);
         const params = new URLSearchParams(`page=${currentData.page + 1}`);
         fetcher.submit(params);
         setCurrentData({ ...currentData, page: currentData.page + 1 });
@@ -59,7 +58,7 @@ export default function Index() {
     const options: IntersectionObserverInit = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.6,
+      threshold: 0,
     };
 
     const observer = new IntersectionObserver(callback, options);
@@ -71,21 +70,34 @@ export default function Index() {
     };
   }, [productsContainerElement, callback]);
 
+  const totalProducts = currentData.products.length;
+
   return (
     <main className="main">
       <h1>Almacén</h1>
-      <div ref={productsContainerElement} className="products-container">
+      <div className="products-container">
         {currentData.products.map(
-          ({ id, photo, name, showOriginalPrice, price, originalPrice }) => (
-            <Product
+          (
+            { id, photo, name, showOriginalPrice, price, originalPrice },
+            index
+          ) => (
+            <div
               key={id}
-              id={id}
-              photo={photo}
-              name={name}
-              showOriginalPrice={showOriginalPrice}
-              price={price}
-              originalPrice={originalPrice}
-            />
+              ref={
+                index === Math.floor(totalProducts * 0.6)
+                  ? productsContainerElement
+                  : undefined
+              }
+            >
+              <Product
+                id={id}
+                photo={photo}
+                name={name}
+                showOriginalPrice={showOriginalPrice}
+                price={price}
+                originalPrice={originalPrice}
+              />
+            </div>
           )
         )}
       </div>

@@ -65,7 +65,7 @@ function prepareProduct(
 }
 
 export default async function getProducts(page = 1): Promise<Products> {
-  const productosUrl = `${API_URL}/products?page=${page}`;
+  const productosUrl = `${API_URL}/slow/products?page=${page}`;
 
   const response = await fetch(productosUrl, {
     method: "GET",

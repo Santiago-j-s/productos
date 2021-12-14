@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { API_URL } from "~/constants";
 import getCotization from "./getCotization";
 
@@ -9,7 +10,7 @@ interface ApiProduct {
   brand: string;
   photo: string;
   originalPrice: number;
-  updateAt: string;
+  updatedAt: string;
 }
 
 interface ApiResponseProducts {
@@ -27,6 +28,7 @@ export interface Product {
   priceInDollars: string;
   showOriginalPrice: boolean;
   photo: string;
+  isRecent: boolean;
 }
 
 export interface Products {
@@ -45,9 +47,11 @@ function getPhotoWithCache(photo: string) {
 }
 
 function prepareProduct(
-  { id, name, price, originalPrice, photo }: ApiProduct,
+  { id, name, price, originalPrice, photo, updatedAt }: ApiProduct,
   cotization: number
 ): Product {
+  const oneMonthAgo = dayjs().subtract(1, "month");
+
   return {
     id,
     name,
@@ -56,6 +60,7 @@ function prepareProduct(
     priceInDollars: (price / cotization).toFixed(2),
     showOriginalPrice: originalPrice > price,
     photo: getPhotoWithCache(photo),
+    isRecent: dayjs(updatedAt).isAfter(oneMonthAgo),
   };
 }
 
@@ -75,8 +80,8 @@ export default async function getProducts(page = 1): Promise<Products> {
     page: data.page,
     per_page: data.per_page,
     isLastPage: data.page_count === data.page,
-    products: data.products.map((product) =>
-      prepareProduct(product, cotization)
-    ),
+    products: data.products
+      .map((product) => prepareProduct(product, cotization))
+      .filter((p) => p.isRecent),
   };
 }

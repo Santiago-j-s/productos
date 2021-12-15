@@ -69,7 +69,7 @@ export default async function getProducts(page = 1): Promise<Products> {
 
   let data: ApiResponseProducts;
 
-  const cached = await PRODUCTS.get(page.toString(), { cacheTtl: 3600 });
+  const cached = await PRODUCTS.get(page.toString());
   if (cached) {
     data = JSON.parse(cached);
   } else {

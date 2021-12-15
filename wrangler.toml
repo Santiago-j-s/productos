@@ -9,7 +9,7 @@ zone_id = ""
 compatibility_date = "2021-12-11"
 
 kv_namespaces = [
-  {binding = "PRODUCTS", namespace = "bc1cbf85d0ec465597fcd0d707d534af"},
+  {binding = "PRODUCTS", id = "bc1cbf85d0ec465597fcd0d707d534af"},
 ]
 
 [site]

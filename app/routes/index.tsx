@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import { json, LoaderFunction, HeadersFunction, useLoaderData } from "remix";
 
 import getProducts from "~/services/getProducts";
@@ -14,7 +15,8 @@ export const loader: LoaderFunction = async ({ request }) => {
     headers: {
       "Cache-Control": `public, max-age=60, stale-while-revalidate=${
         3600 - 60
-      }`,
+      }, must-revalidate`,
+      Etag: createHash("md5").update(JSON.stringify(products)).digest("hex"),
     },
   });
 };

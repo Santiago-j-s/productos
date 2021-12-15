@@ -67,15 +67,23 @@ function prepareProduct(
 export default async function getProducts(page = 1): Promise<Products> {
   const productosUrl = `${API_URL}/slow/products?page=${page}`;
 
-  const response = await fetch(productosUrl, {
-    method: "GET",
-    cf: { cacheTtl: 3600, cacheEverything: true },
-  });
+  let data: ApiResponseProducts;
 
-  const [data, cotization]: [ApiResponseProducts, number] = await Promise.all([
-    response.json(),
-    getCotization(),
-  ]);
+  const cached = await PRODUCTS.get(page.toString(), { cacheTtl: 3600 });
+  if (cached) {
+    data = JSON.parse(cached);
+  } else {
+    const response = await fetch(productosUrl, {
+      method: "GET",
+      cf: { cacheTtl: 3600, cacheEverything: true },
+    });
+    data = await response.json();
+    PRODUCTS.put(page.toString(), JSON.stringify(data), {
+      expirationTtl: 3600,
+    });
+  }
+
+  const cotization = await getCotization();
 
   return {
     page: data.page,

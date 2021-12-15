@@ -1,12 +1,16 @@
 name = "remix-cloudflare-workers"
 type = "javascript"
 
-zone_id = ""
 account_id = ""
 route = ""
 workers_dev = true
+zone_id = ""
 
 compatibility_date = "2021-12-11"
+
+kv_namespaces = [
+  {binding = "PRODUCTS", namespace = "bc1cbf85d0ec465597fcd0d707d534af"},
+]
 
 [site]
 bucket = "./public"
@@ -17,4 +21,4 @@ command = "npm run build:worker"
 watch_dir = "build/index.js"
 
 [build.upload]
-format="service-worker"
+format = "service-worker"

@@ -8,6 +8,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   return new Response(response.body, {
     ...response,
-    headers: { "cache-control": "public, max-age=3600" },
+    headers: { "cache-control": "public, max-age=3600, s-max-age=3600" },
   });
 };

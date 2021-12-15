@@ -69,7 +69,7 @@ export default async function getProducts(page = 1): Promise<Products> {
 
   const response = await fetch(productosUrl, {
     method: "GET",
-    cf: { cacheTtl: 3600 },
+    cf: { cacheTtl: 3600, cacheEverything: true },
   });
 
   const [data, cotization]: [ApiResponseProducts, number] = await Promise.all([

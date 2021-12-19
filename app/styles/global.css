@@ -1,14 +1,21 @@
 @font-face {
   font-family: "SfPro";
   src: url("/fonts/sf-pro-text-regular.woff") format("woff");
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "SfPro";
   src: url("/fonts/sf-pro-text-semibold.woff") format("woff");
-  font-weight: bold;
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SfPro";
+  src: url("/fonts/sf-pro-text-bold.woff") format("woff");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -109,6 +116,10 @@ h1 {
   font-size: 17px;
 }
 
+.header__brand b {
+  font-weight: 600;
+}
+
 .header__logo {
   width: 30px;
   height: 30px;
@@ -116,14 +127,43 @@ h1 {
   letter-spacing: -0.41px;
 }
 
-.header__cart {
+.header__totals {
   display: flex;
   align-items: center;
   font-size: 14px;
 }
 
-.header__cart-icon {
+.header__totals strong {
+  font-weight: 600;
+}
+
+.header__cart {
+  position: relative;
+  width: 22px;
+  height: 22px;
   margin-left: 0.6em;
+}
+
+.header__cart_icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: -10px;
+  top: -8px;
+
+  width: 12px;
+  height: 12px;
+  padding: 8px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+
+  background-color: var(--color-accent);
+  color: #fff;
+
+  font-size: 8px;
+  font-weight: 700;
 }
 
 .main {
@@ -178,7 +218,7 @@ h1 {
 .product__price {
   margin: 0;
   margin-bottom: 12px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .product__new-price {
@@ -228,7 +268,7 @@ button {
 
 .product__quantity {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
 
   color: var(--color-accent);
 

@@ -18,14 +18,18 @@ export default function Header() {
         />
         <b>Ez</b>shop
       </div>
-      <div className="header__cart">
+      <div className="header__totals">
         <strong>${totals.price.toFixed(2)}</strong>
-        <img
-          className="header__cart-icon"
-          src={shoppingCart}
-          alt="shopping cart"
-        />
-        {totals.totals}
+        <div className="header__cart">
+          <img
+            className="header__cart-icon"
+            src={shoppingCart}
+            alt="shopping cart"
+            width="22px"
+            height="22px"
+          />
+          <span className="header__cart_icon">{totals.totals}</span>
+        </div>
       </div>
     </header>
   );

@@ -1,25 +1,31 @@
-import { atom, useAtom } from "jotai";
-import { atomFamily } from "jotai/utils";
+import { useAtom } from "jotai";
 import { ReactElement } from "react";
 import type { Product } from "~/services/getProducts";
+import { addOneAtom, substractOneAtom, productAtom } from "~/atoms";
 
 function withExtension(photo: string, ext: string) {
   return photo.replace(/\.jpg/, `.${ext}`);
 }
 
-const quantityAtom = atomFamily(() => atom(0));
+function useCart(id: string, price: string): [number, () => void, () => void] {
+  const [quantity, setQuantity] = useAtom(productAtom(id));
+  const [, addOne] = useAtom(addOneAtom);
+  const [, substractOne] = useAtom(substractOneAtom);
 
-function useCart(id: string): [number, () => void, () => void] {
-  const [quantity, setQuantity] = useAtom(quantityAtom(id));
-
-  const addToCart = () => setQuantity((q) => q + 1);
-  const removeFromCart = () => setQuantity((q) => q - 1);
+  const addToCart = () => {
+    setQuantity((q) => q + 1);
+    addOne(Number(price));
+  };
+  const removeFromCart = () => {
+    setQuantity((q) => q - 1);
+    substractOne(Number(price));
+  };
 
   return [quantity, addToCart, removeFromCart];
 }
 
-function Buttons({ id }: { id: string }): ReactElement {
-  const [quantity, addToCart, removeFromCart] = useCart(id);
+function Buttons({ id, price }: { id: string; price: string }): ReactElement {
+  const [quantity, addToCart, removeFromCart] = useCart(id, price);
 
   if (quantity === 0) {
     return (
@@ -72,7 +78,7 @@ export default function Index({
         ) : null}
         <span className="product__new-price">${price}</span>
       </p>
-      <Buttons id={id} />
+      <Buttons id={id} price={price} />
     </div>
   );
 }

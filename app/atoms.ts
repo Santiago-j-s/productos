@@ -1,11 +1,11 @@
 import { atom } from "jotai";
-import { atomFamily } from "jotai/utils";
+import { atomFamily, atomWithStorage } from "jotai/utils";
 
 /**
  * - totals is the number of items in the cart
  * - price is the total price of the items in the cart
  */
-export const totalsAtom = atom({
+export const totalsAtom = atomWithStorage("cart", {
   totals: 0,
   price: 0,
 });
@@ -35,4 +35,4 @@ export const substractOneAtom = atom<null, number>(
  *
  * The atoms are discriminated by id.
  */
-export const productAtom = atomFamily(() => atom(0));
+export const productAtom = atomFamily((id: string) => atomWithStorage(id, 0));

@@ -1,5 +1,5 @@
 export {};
 
 declare global {
-  const PRODUCTS: KVNamespace;
+  const KV: KVNamespace;
 }

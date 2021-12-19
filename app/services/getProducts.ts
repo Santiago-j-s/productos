@@ -64,28 +64,24 @@ function prepareProduct(
   };
 }
 
+const kvPrefix = "page";
+
 export default async function getProducts(page = 1): Promise<Products> {
   const productosUrl = `${API_URL}/slow/products?page=${page}`;
 
-  let data: ApiResponseProducts;
-
-  const cached = await PRODUCTS.get(page.toString());
+  const cached = await KV.get(`${kvPrefix}:${page}`);
   if (cached) {
-    data = JSON.parse(cached);
-  } else {
-    const response = await fetch(productosUrl, {
-      method: "GET",
-      cf: { cacheTtl: 3600, cacheEverything: true },
-    });
-    data = await response.json();
-    PRODUCTS.put(page.toString(), JSON.stringify(data), {
-      expirationTtl: 3600,
-    });
+    return JSON.parse(cached);
   }
 
-  const cotization = await getCotization();
+  const response = await fetch(productosUrl, { method: "GET" });
 
-  return {
+  const [data, cotization]: [ApiResponseProducts, number] = await Promise.all([
+    response.json(),
+    getCotization(),
+  ]);
+
+  const productsData = {
     page: data.page,
     per_page: data.per_page,
     isLastPage: data.page_count === data.page,
@@ -93,4 +89,10 @@ export default async function getProducts(page = 1): Promise<Products> {
       .map((product) => prepareProduct(product, cotization))
       .filter((p) => p.isRecent),
   };
+
+  KV.put(`${kvPrefix}:${page}`, JSON.stringify(productsData), {
+    expirationTtl: 3600,
+  });
+
+  return productsData;
 }

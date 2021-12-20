@@ -25,7 +25,10 @@ export const substractOneAtom = atom<null, number>(
   null,
   (get, set, priceToSubstract) => {
     const { totals, price } = get(totalsAtom);
-    set(totalsAtom, { totals: totals - 1, price: price - priceToSubstract });
+    set(totalsAtom, {
+      totals: totals - 1,
+      price: Math.abs(price - priceToSubstract),
+    });
   }
 );
 

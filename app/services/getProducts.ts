@@ -38,6 +38,10 @@ export interface Products {
   products: Product[];
 }
 
+/**
+ * Replaces imgs urls with my own service who has cache-control header
+ * on /images/{id_product}.{png,webp}
+ */
 function getPhotoWithCache(photo: string) {
   const photoUrl = new URL(photo);
   const photoUrlParts = photoUrl.pathname.split("/");
@@ -50,6 +54,8 @@ function prepareProduct(
   { id, name, price, originalPrice, photo, updatedAt }: ApiProduct,
   cotization: number
 ): Product {
+  // a recent product is a product which was updated
+  // in the last month
   const oneMonthAgo = dayjs().subtract(1, "month");
 
   return {

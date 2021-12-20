@@ -38,6 +38,11 @@ export interface Products {
   products: Product[];
 }
 
+export interface Error {
+  status: number;
+  message?: string;
+}
+
 /**
  * Replaces imgs urls with my own service who has cache-control header
  * on /images/{id_product}.{png,webp}
@@ -72,7 +77,7 @@ function prepareProduct(
 
 const kvPrefix = "page";
 
-export default async function getProducts(page = 1): Promise<Products> {
+export default async function getProducts(page = 1): Promise<Products | Error> {
   const productosUrl = `${API_URL}/slow/products?page=${page}`;
 
   const cached = await KV.get(`${kvPrefix}:${page}`);
@@ -86,6 +91,10 @@ export default async function getProducts(page = 1): Promise<Products> {
     response.json(),
     getCotization(),
   ]);
+
+  if (!data.products) {
+    return { status: 404 };
+  }
 
   const productsData = {
     page: data.page,

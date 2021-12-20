@@ -36,6 +36,13 @@ export const links: LinksFunction = () => {
       type: "font/woff",
       crossOrigin: "anonymous",
     },
+    {
+      rel: "preload",
+      as: "font",
+      href: "/fonts/sf-pro-text-bold.woff",
+      type: "font/woff",
+      crossOrigin: "anonymous",
+    },
     { rel: "stylesheet", href: globalStylesUrl },
   ];
 };
